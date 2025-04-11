@@ -1,7 +1,7 @@
 from db.db import get_db
 from db.models.user import User
 from helper.auth_helper import get_secret_hash
-from pydantic_models.auth_models import SignupRequest
+from pydantic_models.auth_models import ConfirmSignupRequest, LoginRequest, SignupRequest
 from fastapi import APIRouter, Depends, HTTPException
 import boto3
 from secret_keys import SecretKeys
@@ -51,7 +51,50 @@ def signup_user(data: SignupRequest, db: Session = Depends(get_db),):
         db.commit()
         db.refresh(new_user)
 
-        return {"msg": "User signed up successfully, Please Verify your email if required "}
+        return {"message": "User signed up successfully, Please Verify your email if required "}
+    except Exception as e:
+        raise HTTPException(
+            400, f'Cognito signup exception: {e}')
+
+
+
+@router.post("/login")
+def login_user(data: LoginRequest):
+
+    try:
+        secret_hash = get_secret_hash(data.email, COGNITO_CLIENT_ID, COGNITO_CLIENT_SECRET)
+
+        cognito_response = cognito_client.initiate_auth(
+            ClientId=COGNITO_CLIENT_ID,
+            AuthFlow="USER_PASSWORD_AUTH",
+            AuthParameters={
+                "USERNAME": data.email,
+                "PASSWORD": data.password,
+                "SECRET_HASH": secret_hash, 
+            }
+        )        
+
+        return {"message":"User Logged In successfully"}
+    except Exception as e:
+        raise HTTPException(
+            400, f'Cognito signup exception: {e}')
+
+
+
+@router.post("/confirm-signup")
+def confirm_signup(data: ConfirmSignupRequest):
+
+    try:
+        secret_hash = get_secret_hash(data.email, COGNITO_CLIENT_ID, COGNITO_CLIENT_SECRET)
+
+        cognito_response = cognito_client.confirm_sign_up(
+            ClientId=COGNITO_CLIENT_ID,
+            Username=data.email,
+            ConfirmationCode=data.otp,
+            SecretHash=secret_hash,
+        )        
+
+        return {"message": "User confirmed successfully"}
     except Exception as e:
         raise HTTPException(
             400, f'Cognito signup exception: {e}')
