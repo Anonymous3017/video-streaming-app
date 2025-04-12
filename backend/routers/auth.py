@@ -1,4 +1,5 @@
 from db.db import get_db
+from db.middleware.auth_middleware import get_current_user
 from db.models.user import User
 from helper.auth_helper import get_secret_hash
 from pydantic_models.auth_models import ConfirmSignupRequest, LoginRequest, SignupRequest
@@ -157,3 +158,8 @@ def refresh_token(refresh_token: str = Cookie(None),
     except Exception as e:
         raise HTTPException(
             400, f'Cognito signup exception: {e}')
+
+
+@router.get("/me")
+def protected_route(user=Depends(get_current_user)):
+    return {"message": "You are logged in!", "user": user}
