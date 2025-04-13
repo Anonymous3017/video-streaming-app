@@ -8,6 +8,11 @@ sqs_client = boto3.client(
     region_name=secret_keys.REGION_NAME,
 )
 
+ecs_client = boto3.client(
+    "ecs",
+    region_name=secret_keys.REGION_NAME,
+)
+
 
 def poll_sqs():
     while True:
@@ -38,8 +43,49 @@ def poll_sqs():
 
                 print(f"Bucket: {bucket_name}")
                 print(f"Key: {s3_key}")
-                
+
                 # spin up a docker container
+                response = ecs_client.run_task(
+                    cluster="arn:aws:ecs:ap-south-1:954976332532:cluster/VideoTranscoderCluster",
+                    launchType="FARGATE",
+                    taskDefinition="arn:aws:ecs:ap-south-1:954976332532:task-definition/video-transcoder:2",
+                    overrides={
+                        "containerOverrides": [
+                            {
+                                "name": "video-transcoder",
+                                "environment": [
+                                    {
+                                        "name": "S3_BUCKET",
+                                        "value": bucket_name,
+                                    },
+                                    {
+                                        "name": "S3_KEY",
+                                        "value": s3_key,
+                                    },
+                                ],
+                            }
+                        ]
+                    },
+                    networkConfiguration={
+                        "awsvpcConfiguration": {
+                            "subnets": [
+                                "subnet-0accff48a61623525",
+                                "subnet-061467275ae0e8442",
+                                "subnet-0fcfdbffbb4c94633",
+                                "subnet-00b062743e282b6a6",
+                                "subnet-0bf022766f2b0c6b2",
+                            ],
+                            "assignPublicIp": "ENABLED",
+                            "securityGroups": ["sg-0dd4bada1b632567d"],
+                        }
+                    },
+                )
+
+                print(response)
+                sqs_client.delete_message(
+                    QueueUrl=secret_keys.AWS_SQS_VIDEO_PROCESSING,
+                    ReceiptHandle=message["ReceiptHandle"],
+                )
 
 
 poll_sqs()
