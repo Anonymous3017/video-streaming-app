@@ -10,3 +10,6 @@ class SecretKeys(BaseSettings):
     AWS_SECRET_ACCESS_KEY: str = ""
     S3_BUCKET: str = ""
     S3_KEY: str = ""
+    S3_PROCESSED_VIDEOS_BUCKET: str = ""
+
+
