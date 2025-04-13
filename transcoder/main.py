@@ -89,6 +89,7 @@ class VideoTranscoder:
         process = subprocess.run(cmd)
 
         if process.returncode != 0:
+            print(process.stderr)
             raise Exception("Error transcoding video")
 
     def upload_files(self, prefix: str, local_dir):
