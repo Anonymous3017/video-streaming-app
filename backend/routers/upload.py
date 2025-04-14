@@ -38,3 +38,28 @@ def get_presigned_url(user=Depends(get_current_user)):
             status_code=500,
             detail=f"Failed to generate presigned URL: {e}",
         ) from e
+
+@router.get("/url/thumbnail")
+def get_presigned_url_thumbnail(user=Depends(get_current_user)):
+    try:
+        thumbnail_id = f"{user['sub']}/{uuid.uuid4()}"
+        print(thumbnail_id)
+        response = s3_client.generate_presigned_url(
+            "put_object",
+            Params={
+                "Bucket": secret_keys.AWS_VIDEO_THUMBNAIL_BUCKET,
+                "Key": thumbnail_id,
+                "ContentType": "image/*",
+            },
+        )
+        print(response)
+        return {
+            "url": response,
+            "thumbnail_id": thumbnail_id,
+        }
+    # print the exception
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to generate presigned URL: {e}",
+        ) from e
