@@ -59,3 +59,16 @@ def get_video_info(
         json.dumps(video.to_dict()),
     )
     return video
+
+
+@router.put("/")
+def update_video_by_id(id: str, db: Session = Depends(get_db)):
+    video = db.query(Video).filter(Video.id == id).first()
+    if not video:
+        raise HTTPException(status_code=404, detail="Video not found")
+
+    video.is_processing = ProcessingStatus.COMPLETED
+    db.commit()
+    db.refresh(video)
+
+    return video
