@@ -23,10 +23,21 @@ class Video(Base):
     description = Column(TEXT)
     user_id = Column(TEXT, ForeignKey("users.cognito_sub"))
     video_s3_key = Column(TEXT)
+    # visibility = Column(
+    #     Enum(VisibilityStatus),
+    #     default=VisibilityStatus.PRIVATE,
+    # )
+
     visibility = Column(
-        Enum(VisibilityStatus),
-        default=VisibilityStatus.PRIVATE,
+        Enum(
+            VisibilityStatus,
+            name="visibilitystatus", # The name of the type in PostgreSQL
+            schema="public"         # Explicitly set the schema here
+        ),
+        nullable=False,
+        default=VisibilityStatus.PRIVATE
     )
+    
     is_processing = Column(
         Enum(ProcessingStatus),
         default=ProcessingStatus.IN_PROGRESS,
