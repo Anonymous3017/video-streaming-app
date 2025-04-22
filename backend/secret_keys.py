@@ -13,5 +13,8 @@ class SecretKeys(BaseSettings):
     AWS_VIDEO_THUMBNAIL_BUCKET: str = ""
     AWS_ACCESS_KEY_ID: str = ""
     AWS_SECRET_ACCESS_KEY: str = ""
+    REDIS_DB_HOST: str = ""
+    REDIS_DB_PORT: int = 0
+    REDIS_DB_PASSWORD: str = ""
     
     

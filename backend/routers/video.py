@@ -40,6 +40,7 @@ def get_video_info(
         print("Cache hit")
         print(cached_data)
         return json.loads(cached_data)
+    print("Cache miss")
     video = (
         db.query(Video)
         .filter(
