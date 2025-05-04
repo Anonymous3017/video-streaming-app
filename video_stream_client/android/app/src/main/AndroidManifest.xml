@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="video_stream_client"
+        android:label="YTC"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
