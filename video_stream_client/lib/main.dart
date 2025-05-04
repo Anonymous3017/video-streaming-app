@@ -1,16 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:video_stream_client/cubits/auth/auth_cubits.dart';
 import 'package:video_stream_client/pages/auth/signup_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthCubit()),
+        // BlocProvider(create: (context) => UploadVideoCubit()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    // context.read<AuthCubit>().isAuthenticated();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'YTC',
+      title: 'YT Clone',
       theme: ThemeData(
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -41,7 +63,19 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const SignupPage(),
+      home: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          if (state is AuthInitial) {
+            return SignupPage();
+          } else if (state is AuthLoginSuccess) {
+            // return HomePage();
+          } else if (state is AuthError) {
+            return SignupPage();
+          }
+
+          return const SizedBox();
+        },
+      ),
     );
   }
 }
