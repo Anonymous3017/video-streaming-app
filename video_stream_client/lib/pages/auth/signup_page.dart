@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:video_stream_client/pages/auth/confirm_signup_page.dart';
 import 'package:video_stream_client/pages/auth/login_page.dart';
 import 'package:video_stream_client/services/auth_service.dart';
 import 'package:video_stream_client/utils/utils.dart';
@@ -45,6 +46,9 @@ class _SignupPageState extends State<SignupPage> {
           password: passwordController.text.trim(),
         );
         showSnackBar(res, context);
+        Navigator.of(context).push(ConfirmSignupPage.route(
+          emailController.text.trim(),
+        ));
       } catch(e){
         showSnackBar(e.toString(), context);
       }
