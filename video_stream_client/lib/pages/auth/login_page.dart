@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_stream_client/pages/auth/signup_page.dart';
+import 'package:video_stream_client/services/auth_service.dart';
+import 'package:video_stream_client/utils/utils.dart';
 class LoginPage extends StatefulWidget {
   static route() => MaterialPageRoute(builder: (context) => LoginPage());
   const LoginPage({super.key});
@@ -12,7 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  // final AuthService authService = AuthService();
+  final AuthService authService = AuthService();
 
   @override
   void dispose() {
@@ -21,21 +23,18 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  // void login() async {
-  //   if (formKey.currentState!.validate()) {
-  //     context.read<AuthCubit>().loginUser(
-  //       email: emailController.text.trim(),
-  //       password: passwordController.text.trim(),
-  //     );
-  //   }
-  // }
-
-  //login log controler details
   void login() async {
     if (formKey.currentState!.validate()) {
-      //print controler data
-      print(emailController.text);
-      print(passwordController.text);
+      try {
+        final res = await authService.loginUser(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+        showSnackBar(res, context);
+        // Navigator.of(context).push(HomePage.route());
+      } catch (e) {
+        showSnackBar(e.toString(), context);
+      }
     }
   }
 

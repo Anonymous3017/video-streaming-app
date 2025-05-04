@@ -44,4 +44,22 @@ class AuthService {
 
     return jsonDecode(res.body)['message'] ?? 'OTP Confirmed, LOGIN!';
   }
+
+  Future<String> loginUser({
+    required String password,
+    required String email,
+  }) async {
+    final res = await http.post(
+      Uri.parse("$backendUrl/login"),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({"email": email, "password": password}),
+    );
+
+    if (res.statusCode != 200) {
+      print(res.body);
+      throw jsonDecode(res.body)['detail'] ?? 'An error occurred!';
+    }
+
+    return jsonDecode(res.body)['message'] ?? 'Login successful';
+  }
 }
