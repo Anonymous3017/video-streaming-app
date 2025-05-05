@@ -47,7 +47,7 @@ def get_presigned_url(user=Depends(get_current_user)):
 @router.get("/url/thumbnail")
 def get_presigned_url_thumbnail(thumbnail_id: str, user=Depends(get_current_user)):
     try:
-        thumbnail_id = thumbnail_id.replace("videos/", "thumbnails/")
+        thumbnail_id = thumbnail_id.replace("videos/", "thumbnails/").replace(".mp4", " ")
         print(thumbnail_id)
         response = s3_client.generate_presigned_url(
             "put_object",
@@ -55,6 +55,7 @@ def get_presigned_url_thumbnail(thumbnail_id: str, user=Depends(get_current_user
                 "Bucket": secret_keys.AWS_VIDEO_THUMBNAIL_BUCKET,
                 "Key": thumbnail_id,
                 "ContentType": "image/*",
+                "ACL": "public-read",
             },
         )
         print(response)
