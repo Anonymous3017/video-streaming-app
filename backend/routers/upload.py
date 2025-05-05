@@ -21,7 +21,7 @@ s3_client = boto3.client(
 @router.get("/url")
 def get_presigned_url(user=Depends(get_current_user)):
     try:
-        video_id = f"videos/{user['sub']}/{uuid.uuid4()}"
+        video_id = f"videos/{user['sub']}/{uuid.uuid4()}.mp4"
         print(video_id)
         response = s3_client.generate_presigned_url(
             "put_object",
@@ -45,9 +45,9 @@ def get_presigned_url(user=Depends(get_current_user)):
 
 
 @router.get("/url/thumbnail")
-def get_presigned_url_thumbnail(user=Depends(get_current_user)):
+def get_presigned_url_thumbnail(thumbnail_id: str, user=Depends(get_current_user)):
     try:
-        thumbnail_id = f"{user['sub']}/{uuid.uuid4()}"
+        thumbnail_id = thumbnail_id.replace("videos/", "thumbnails/")
         print(thumbnail_id)
         response = s3_client.generate_presigned_url(
             "put_object",
