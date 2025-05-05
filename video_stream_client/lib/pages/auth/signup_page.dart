@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:video_stream_client/cubits/auth/auth_cubits.dart';
+import 'package:video_stream_client/cubits/auth/auth_cubit.dart';
 import 'package:video_stream_client/pages/auth/confirm_signup_page.dart';
 import 'package:video_stream_client/pages/auth/login_page.dart';
 import 'package:video_stream_client/utils/utils.dart';
+
 class SignupPage extends StatefulWidget {
   static route() => MaterialPageRoute(builder: (context) => SignupPage());
   const SignupPage({super.key});
@@ -29,10 +30,10 @@ class _SignupPageState extends State<SignupPage> {
   void signUp() async {
     if (formKey.currentState!.validate()) {
       context.read<AuthCubit>().signUpUser(
-        name: nameController.text.trim(),
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
+            name: nameController.text.trim(),
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          );
     }
   }
 
@@ -123,7 +124,9 @@ class _SignupPageState extends State<SignupPage> {
                         children: [
                           TextSpan(
                             text: 'Sign In',
-                            style: Theme.of(context).textTheme.titleMedium
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ],

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:video_stream_client/cubits/auth/auth_cubits.dart';
+import 'package:video_stream_client/cubits/auth/auth_cubit.dart';
+import 'package:video_stream_client/cubits/upload_video/upload_video_cubit.dart';
 import 'package:video_stream_client/pages/auth/signup_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_stream_client/pages/home/home_page.dart';
 
 void main() {
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
-        // BlocProvider(create: (context) => UploadVideoCubit()),
+        BlocProvider(create: (context) => UploadVideoCubit()),
       ],
       child: const MyApp(),
     ),
@@ -26,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // context.read<AuthCubit>().isAuthenticated();
+    context.read<AuthCubit>().isAuthenticated();
   }
 
   @override
@@ -68,7 +70,7 @@ class _MyAppState extends State<MyApp> {
           if (state is AuthInitial) {
             return SignupPage();
           } else if (state is AuthLoginSuccess) {
-            // return HomePage();
+            return HomePage();
           } else if (state is AuthError) {
             return SignupPage();
           }

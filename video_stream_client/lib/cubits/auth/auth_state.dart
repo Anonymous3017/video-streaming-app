@@ -1,4 +1,4 @@
-part of 'auth_cubits.dart';
+part of 'auth_cubit.dart';
 
 @immutable
 sealed class AuthState {}

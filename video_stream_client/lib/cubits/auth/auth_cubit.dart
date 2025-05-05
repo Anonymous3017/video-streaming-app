@@ -47,17 +47,17 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // void isAuthenticated() async {
-  //   emit(AuthLoading());
-  //   try {
-  //     final res = await authService.isAuthenticated();
-  //     if (res) {
-  //       emit(AuthLoginSuccess('Logged in!'));
-  //     } else {
-  //       emit(AuthInitial());
-  //     }
-  //   } catch (e) {
-  //     emit(AuthError(e.toString()));
-  //   }
-  // }
+  void isAuthenticated() async {
+    emit(AuthLoading());
+    try {
+      final res = await authService.isAuthenticated();
+      if (res) {
+        emit(AuthLoginSuccess('Logged in!'));
+      } else {
+        emit(AuthInitial());
+      }
+    } catch (e) {
+      emit(AuthError(e.toString()));
+    }
+  }
 }

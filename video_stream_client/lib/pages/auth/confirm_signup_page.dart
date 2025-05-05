@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:video_stream_client/cubits/auth/auth_cubits.dart';
+import 'package:video_stream_client/cubits/auth/auth_cubit.dart';
 import 'package:video_stream_client/pages/auth/login_page.dart';
 import 'package:video_stream_client/services/auth_service.dart';
 import 'package:video_stream_client/utils/utils.dart';

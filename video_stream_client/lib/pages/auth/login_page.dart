@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:video_stream_client/cubits/auth/auth_cubits.dart';
+import 'package:video_stream_client/cubits/auth/auth_cubit.dart';
 import 'package:video_stream_client/pages/auth/signup_page.dart';
+import 'package:video_stream_client/pages/home/home_page.dart';
 import 'package:video_stream_client/services/auth_service.dart';
 import 'package:video_stream_client/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +43,11 @@ class _LoginPageState extends State<LoginPage> {
         listener: (context, state) {
           if (state is AuthLoginSuccess) {
             showSnackBar(state.message, context);
-            // TODO: Navigate to home page
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+              (route) => false,
+            );
           } else if (state is AuthError) {
             showSnackBar(state.errorMessage, context);
           }

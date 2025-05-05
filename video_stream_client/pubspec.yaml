@@ -38,6 +38,11 @@ dependencies:
   rename: ^3.0.2
   http: ^1.3.0
   flutter_bloc: ^9.1.1
+  dotted_border: ^2.1.0
+  flutter_secure_storage: ^9.2.4
+  path_provider: ^2.1.5
+  better_player:
+    git: https://github.com/Lo4D/better-player-ultra.git
 
 dev_dependencies:
   flutter_test:
