@@ -43,6 +43,7 @@ dependencies:
   path_provider: ^2.1.5
   better_player:
     git: https://github.com/Lo4D/better-player-ultra.git
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:
