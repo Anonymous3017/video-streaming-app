@@ -47,5 +47,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access to gallery for thumbnail</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Access to camera for thumbnail or for video</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Access to mic for video</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true />
+	</dict>
 </dict>
 </plist>
