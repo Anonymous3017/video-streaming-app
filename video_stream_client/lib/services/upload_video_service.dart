@@ -56,7 +56,7 @@ class UploadVideoService {
     final res = await http.put(
       Uri.parse(presignedUrl),
       headers: {
-        'Content-Type': isVideo ? 'video/mp4' : 'image/jpg',
+        'Content-Type': isVideo ? 'video/mp4' : 'image/*',
         if (!isVideo) 'x-amz-acl': 'public-read',
       },
       body: file.readAsBytesSync(),
