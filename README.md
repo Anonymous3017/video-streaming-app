@@ -2,6 +2,19 @@
 
 A YouTube-like video streaming platform with user authentication, video upload, transcoding, and playback capabilities.
 
+## Description
+
+A full-stack YouTube-like platform with user authentication (AWS Cognito), video upload (S3), adaptive streaming (DASH), and a Flutter mobile client. Features include secure login, video upload with presigned URLs, real-time playback, and scalable microservices (FastAPI, SQS, ECS, Docker).
+
+## Tech Stack
+
+- **Frontend**: Flutter (mobile client)
+- **Backend**: FastAPI
+- **Cloud Services**: AWS Cognito, AWS S3, AWS SQS, AWS ECS
+- **Containerization**: Docker
+- **Database**: PostgreSQL
+- **Caching**: Redis
+
 ## Features
 
 - User authentication (signup/login) with AWS Cognito
